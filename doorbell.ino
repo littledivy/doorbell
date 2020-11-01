@@ -6,10 +6,10 @@
 
 #define __pin_echo 2		// attach pin D2 Arduino to pin Echo of HC-SR04
 #define __pin_trig 3		//attach pin D3 Arduino to pin Trig of HC-SR04
-#define __pin_relay 4		// attach pin D4 Arduino to pin Trig of Relay module
+#define __pin_relay 8		// attach pin D4 Arduino to pin Trig of Relay module
 
-#define __duration_cooldown 2000
-#define __duration_bell 2000
+#define __duration_cooldown 1000
+#define __duration_bell 1000
 
 long duration;			// duration of sound wave travel
 int distance;			// distance measurement
@@ -40,14 +40,14 @@ loop ()
   duration = pulseIn (__pin_echo, HIGH);
   // Calculating the distance
   distance = duration * 0.034 / 2;
-  if (distance < 4)
+  if (distance < 10)
     {
       Serial.print ("Doorbell triggered at ");
       Serial.print (distance);
       Serial.println (" cm");
-      digitalWrite (__pin_relay, LOW);
-      delay (__duration_bell);
       digitalWrite (__pin_relay, HIGH);
-      delay (__duration_cooldown);
+      delay (__duration_bell);
     }
+  digitalWrite (__pin_relay, LOW);
+  delay (__duration_cooldown);
 }
